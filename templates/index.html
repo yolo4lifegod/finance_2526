@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Home</h2>
+  <section>
+    <h3>Internal Audit</h3>
+    {% if last_audit %}
+      <p>Last audit: {{ last_audit.audit_date }} by {{ last_audit.auditor_name }}</p>
+      <p>Next due: <strong {% if highlight == 'red' %} style="color:red" {% elif highlight == 'warning' %} style="color:orange" {% endif %}>{{ next_due }}</strong></p>
+      <p><a href="{{ url_for('main.audit_log') }}">Audit Log</a></p>
+    {% else %}
+      <p>No audit recorded. <a href="{{ url_for('main.audit_log') }}">Add an audit</a></p>
+    {% endif %}
+  </section>
+
+  <section>
+    <h3>Forms</h3>
+    <ul>
+      <li><a href="{{ url_for('main.reimbursement') }}">Submit Reimbursement Request</a></li>
+      <li><a href="{{ url_for('main.purchase_request') }}">Submit Purchase Request</a></li>
+      <li><a href="{{ url_for('main.grants') }}">Grant Applications</a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h3>Design Teams</h3>
+      <ul>
+          {% for id, name in design_teams %}
+              <li>
+                  <a href="{{ url_for('main.design_team_detail', team_id=id) }}">
+                      {{ name }}
+                  </a>
+              </li>
+          {% endfor %}
+      </ul>
+  </section>
+{% endblock %}

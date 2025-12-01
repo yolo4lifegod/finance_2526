@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ team_name }} Expenditures</h1>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Requester</th>
+            <th>Line Item</th>
+            <th>Unit Price</th>
+            <th>Qty</th>
+            <th>Total</th>
+            <th>APF</th>
+            <th>P-card</th>
+            <th>Completed</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in expenditures %}
+        <tr>
+            <td>{{ item.request_date }}</td>
+            <td>{{ item.requester }}</td>
+            <td><a href="{{ item.line_item_link }}" target="_blank">{{ item.line_item_name }}</a></td>
+            <td>{{ item.unit_price }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.unit_price * item.quantity }}</td>
+
+            <td>
+                {% if item.apf_file %}
+                <a href="{{ url_for('main.uploaded_file', filename=item.apf_file) }}">APF</a>
+                {% endif %}
+            </td>
+
+            <td>
+                {% if item.pcard_form %}
+                <a href="{{ url_for('main.uploaded_file', filename=item.pcard_form) }}">Form</a>
+                {% endif %}
+            </td>
+
+            <td><input type="checkbox" disabled {% if item.completed %}checked{% endif %}></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3>Totals</h3>
+<ul>
+    <li>Total Expenditures: {{ totals.total }}</li>
+    <li>Total Confirmed: {{ totals.confirmed }}</li>
+</ul>
+
+{% endblock %}

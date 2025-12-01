@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Purchase Request</h2>
+  <form method="post" enctype="multipart/form-data" onsubmit="return validatePurchaseForm()">
+    {{ form.hidden_tag() }}
+    <div>
+      {{ form.name.label }} {{ form.name() }}
+    </div>
+    <div>
+      {{ form.design_team.label }} {{ form.design_team() }}
+    </div>
+    <div>
+      {{ form.num_items.label }} {{ form.num_items(id="num_items") }}
+    </div>
+
+    <div id="items_container"></div>
+
+    <div>
+      {{ form.apf_file.label }} {{ form.apf_file() }}
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/purchase_items.js') }}"></script>
+<script>
+  $(function(){
+    $("#num_items").on("change keyup", function(){
+      generateItems(Number($(this).val()));
+    });
+    // initialize if there's a default value
+    generateItems(Number($("#num_items").val() || 0));
+  });
+</script>
+{% endblock %}

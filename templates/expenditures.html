@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Overall Expenditures & Income</h1>
+<form method="GET" action="{{ url_for('main.expenditures') }}">
+    <label for="team">Filter by Design Team:</label>
+    <select name="team" id="team" onchange="this.form.submit()">
+        <option value="">All Teams</option>
+
+        {% for team_id, team_name in design_teams %}
+            <option value="{{ team_id }}" 
+                {% if selected_team|string == team_id|string %}selected{% endif %}>
+                {{ team_name }}
+            </option>
+        {% endfor %}
+    </select>
+</form>
+
+<hr>
+
+<h2>Expenditures</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Request Date</th>
+            <th>Type</th>
+            <th>Team</th>
+            <th>Requester</th>
+            <th>Line Item</th>
+            <th>Unit Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>APF</th>
+            <th>Submitted P-Card Form</th>
+            <th>P-card Form</th>
+            <th>Completed</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in expenditures %}
+        <tr>
+            <td>{{ item.request_submission_date }}</td>
+            <td>{{ item.request_type }}</td>
+            <td>{{ item.design_team.name if item.design_team else 'Unknown' }}</td>
+            <td>{{ item.requester_name }}</td>
+            <td>
+                {% if item.request_type == 'R' and item.reimbursement_id %}
+                    <a href="{{ url_for('main.download_reimbursement_files', reimbursement_id=item.reimbursement_id) }}">{{ item.line_item_name }}</a>
+                {% else %}
+                    <a href="{{ item.link }}" target="_blank">{{ item.line_item_name }}</a>
+                {% endif %}
+            </td>
+            <td>{{ item.unit_price }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>${{ "%.2f"|format(item.total_cost) }}</td>
+
+            <td>
+                {% if item.attached_apf %}
+                <a href="{{ url_for('main.uploaded_file', filename=item.attached_apf) }}" target="_blank">File</a>
+                {% endif %}
+            </td>
+
+            <td>
+                {# AJAX-enabled checkbox for Submitted P-Card Form. Sends POST to toggle route
+                   and keeps UI in sync without a full page reload. #}
+                <input type="checkbox" class="toggle-pcard" data-id="{{ item.id }}" {% if item.submitted_purchase_request %}checked{% endif %}>
+            </td>
+
+            <td>
+                {# P-card form column: only for purchase requests #}
+                {% if item.request_type == 'P' %}
+                    {% if item.pcard_form_link %}
+                        <a href="{{ url_for('main.uploaded_file', filename=item.pcard_form_link) }}">Submitted</a>
+                    {% else %}
+                        <a href="{{ url_for('main.upload_pcard', id=item.id) }}">Submit?</a>
+                    {% endif %}
+                {% endif %}
+            </td>
+
+            <td>
+                <input type="checkbox" class="toggle-completed" data-id="{{ item.id }}" {% if item.completed %}checked{% endif %}>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3>Add Expenditure</h3>
+<form method="POST" enctype="multipart/form-data">
+    {{ exp_form.hidden_tag() }}
+    <div class="row">
+        <div class="col">{{ exp_form.design_team.label }} {{ exp_form.design_team() }}</div>
+        <div class="col">{{ exp_form.requester_name.label }} {{ exp_form.requester_name() }}</div>
+        <div class="col">{{ exp_form.line_item_name.label }} {{ exp_form.line_item_name() }}</div>
+        <div class="col">{{ exp_form.link.label }} {{ exp_form.link() }}</div>
+        <div class="col">{{ exp_form.unit_price.label }} {{ exp_form.unit_price() }}</div>
+        <div class="col">{{ exp_form.quantity.label }} {{ exp_form.quantity() }}</div>
+    </div>
+    {{ exp_form.submit() }}
+</form>
+
+<hr>
+
+<h2>Income</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Date Confirmed</th>
+            <th>Grant/Company</th>
+            <th>Amount</th>
+            <th>Received?</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for inc in incomes %}
+        <tr>
+            <td>{{ inc.date_of_payment }}</td>
+            <td>{{ inc.source_name }}</td>
+            <td>{{ inc.amount }}</td>
+            <td><input type="checkbox" disabled {% if inc.payment_received %}checked{% endif %}></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3>Add Income</h3>
+<form method="POST">
+    {{ income_form.hidden_tag() }}
+    <div class="row">
+        <div class="col">{{ income_form.date_confirmed.label }} {{ income_form.date_confirmed() }}</div>
+        <div class="col">{{ income_form.source.label }} {{ income_form.source() }}</div>
+        <div class="col">{{ income_form.amount.label }} {{ income_form.amount() }}</div>
+    </div>
+    {{ income_form.submit() }}
+</form>
+
+<hr>
+
+<h2>Totals</h2>
+<table class="table table-bordered">
+    <tr>
+        <th>Total Expenditures</th>
+        <td>${{ "%.2f"|format(totals.total_exp) }}</td>
+    </tr>
+    <tr>
+        <th>Total Confirmed Expenditures</th>
+        <td>${{ "%.2f"|format(totals.total_exp_confirmed) }}</td>
+    </tr>
+    <tr>
+        <th>Total Income</th>
+        <td>${{ "%.2f"|format(totals.total_inc) }}</td>
+    </tr>
+    <tr>
+        <th>Total Confirmed Income</th>
+        <td>${{ "%.2f"|format(totals.total_inc_confirmed) }}</td>
+    </tr>
+    <tr>
+        <th>Unofficial Total</th>
+        <td style="color: {% if totals.unofficial < 0 %}red{% else %}black{% endif %};">
+            ${{ "%.2f"|format(totals.unofficial) }}
+        </td>
+    </tr>
+    <tr>
+        <th><strong>Official Total</strong></th>
+        <td style="color: {% if totals.official < 0 %}red{% else %}black{% endif %}; font-weight: bold;">
+            ${{ "%.2f"|format(totals.official) }}
+        </td>
+    </tr>
+    <tr>
+        <th>Worst Case Total</th>
+        <td style="color: {% if totals.worst < 0 %}red{% else %}black{% endif %};">
+            ${{ "%.2f"|format(totals.worst) }}
+        </td>
+    </tr>
+</table>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    document.querySelectorAll('.toggle-pcard').forEach(function(cb){
+        cb.addEventListener('change', function(e){
+            const checkbox = this;
+            const id = checkbox.dataset.id;
+            // optimistic UI already toggled; call server to persist
+            fetch(`/expenditure/${id}/toggle_submitted_pcard`, {method: 'POST'})
+                .then(function(resp){
+                    if (resp.status === 204) return;
+                    throw new Error('Server error: ' + resp.status);
+                })
+                .catch(function(err){
+                    alert('Failed to save submitted p-card state: ' + err.message);
+                    // revert checkbox
+                    checkbox.checked = !checkbox.checked;
+                });
+        });
+    // completed checkbox AJAX handler
+    document.querySelectorAll('.toggle-completed').forEach(function(cb){
+        cb.addEventListener('change', function(e){
+            const checkbox = this;
+            const id = checkbox.dataset.id;
+            fetch(`/expenditure/${id}/toggle_completed`, {method: 'POST'})
+                .then(function(resp){
+                    if (resp.status === 204) return;
+                    throw new Error('Server error: ' + resp.status);
+                })
+                .catch(function(err){
+                    alert('Failed to save completed state: ' + err.message);
+                    checkbox.checked = !checkbox.checked;
+                });
+        });
+    });
+    });
+});
+</script>
+{% endblock %}
+

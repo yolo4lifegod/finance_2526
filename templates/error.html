@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<div style="text-align: center; padding: 40px;">
+    <h1 style="font-size: 48px; margin-bottom: 20px;">🤔 Oops!</h1>
+    <h2>This page doesn't exist or isn't working yet</h2>
+    <p style="font-size: 16px; color: #666; margin: 20px 0;">
+        Error Code: {{ error_code }}
+    </p>
+    <p style="font-size: 14px; color: #999; margin-bottom: 30px;">
+        {% if error_message %}{{ error_message }}{% else %}We're not sure what happened, but something went wrong.{% endif %}
+    </p>
+    <a href="{{ url_for('main.index') }}" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">← Back to Home</a>
+</div>
+{% endblock %}

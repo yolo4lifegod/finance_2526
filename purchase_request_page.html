@@ -1,0 +1,68 @@
+﻿<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Finance App</title>
+  <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
+</head>
+<body>
+  <header>
+    <h1>Finance Management</h1>
+    <nav>
+      <a href="/">Home</a> |
+      <a href="/audit-log">Audit Log</a> |
+      <a href="/reimbursement">Reimbursement</a> |
+      <a href="/purchase-request">Purchase Request</a> |
+      <a href="/grants">Grants</a> |
+      <a href="/expenditures">Overall Expenditures</a>
+    </nav>
+  </header>
+
+  <main>
+    
+      
+    
+    
+  <h2>Purchase Request</h2>
+  <form method="post" enctype="multipart/form-data">
+    <input id="csrf_token" name="csrf_token" type="hidden" value="ImY1NDNjOTE1OGU4OWZjNGFkZmVjYzIyMTA4NDVmYjczZjY4YzlkOTci.aS3bKg.bYJUe3VJqR9XbOZI6ZLdI14HUpw">
+    <div>
+      <label for="name">Requester Name</label> <input id="name" name="name" required type="text" value="">
+    </div>
+    <div>
+      <label for="design_team">Design Team</label> <select id="design_team" name="design_team" required><option value="1">Aero</option><option value="2">Biomechanics</option><option value="3">Consulting</option><option value="4">Energy</option><option value="5">Racing</option><option value="6">Robotics</option><option value="7">Rube Goldberg</option><option value="8">Small Projects</option><option value="9">EPICS</option><option value="10">Board of Directors</option><option value="11">DEIB</option><option value="12">External</option><option value="13">Marketing</option><option value="14">Internal</option><option value="15">Workspaces</option></select>
+    </div>
+    <div>
+      <label for="num_items">Number of items (1-10)</label> <input id="num_items" max="10" min="1" name="num_items" required type="number" value="">
+    </div>
+
+    <div id="items_container"></div>
+
+    <div>
+      <label for="apf_file">Associated APF (optional)</label> <input id="apf_file" name="apf_file" type="file">
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  </main>
+
+  <footer>
+    <small>Prototype</small>
+  </footer>
+  
+<script src="/static/js/purchase_items.js"></script>
+<script>
+  $(function(){
+    $("#num_items").on("change keyup", function(){
+      generateItems(Number($(this).val()));
+    });
+    // initialize if there's a default value
+    generateItems(Number($("#num_items").val() || 0));
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+# Quick Deployment Steps
+
+## 1️⃣ Initialize Git (run once in project folder)
+```powershell
+git init
+git config user.email "your.email@gmail.com"
+git config user.name "Your Name"
+git add .
+git commit -m "Initial commit"
+```
+
+## 2️⃣ Create GitHub Repo
+- Go to github.com → Click **+** → **New repository**
+- Name it: `asme-finance`
+- Create repository (don't initialize)
+
+## 3️⃣ Push to GitHub
+```powershell
+git remote add origin https://github.com/YOUR_USERNAME/asme-finance.git
+git branch -M main
+git push -u origin main
+```
+
+## 4️⃣ Deploy to Render
+1. Go to **render.com**
+2. Click **New +** → **Web Service**
+3. Connect your GitHub repo
+4. Settings:
+   - Build: `pip install -r requirements.txt`
+   - Start: `gunicorn run:app`
+5. Create Web Service
+
+## 5️⃣ Done! 🎉
+Your app will be live at: `https://asme-finance.onrender.com`
+
+---
+
+## Future Updates
+```powershell
+git add .
+git commit -m "Description"
+git push origin main
+# Render auto-deploys!
+```

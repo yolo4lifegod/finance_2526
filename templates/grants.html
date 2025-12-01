@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Grant Applications</h1>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Grant</th>
+            <th>Writer</th>
+            <th>Deadline</th>
+            <th>Response Link</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for g in grants %}
+        <tr>
+            <td><a href="{{ url_for('main.grant_detail', grant_id=g.id) }}">{{ g.grant_name }}</a></td>
+            <td>{{ g.grant_writer }}</td>
+            <td>{{ g.submission_deadline or "N/A" }}</td>
+            <td><a href="{{ g.response_link }}" target="_blank">Link</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3>Add Grant Application</h3>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.grant_writer.label }} {{ form.grant_writer() }}<br>
+    {{ form.grant_name.label }} {{ form.grant_name() }}<br>
+    {{ form.response_link.label }} {{ form.response_link() }}<br>
+    {{ form.submission_deadline.label }} {{ form.submission_deadline() }}<br>
+    {{ form.submit() }}
+</form>
+
+{% endblock %}

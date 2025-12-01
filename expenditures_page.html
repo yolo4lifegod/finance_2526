@@ -1,0 +1,260 @@
+﻿<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Finance App</title>
+  <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
+</head>
+<body>
+  <header>
+    <h1>Finance Management</h1>
+    <nav>
+      <a href="/">Home</a> |
+      <a href="/audit-log">Audit Log</a> |
+      <a href="/reimbursement">Reimbursement</a> |
+      <a href="/purchase-request">Purchase Request</a> |
+      <a href="/grants">Grants</a> |
+      <a href="/expenditures">Overall Expenditures</a>
+    </nav>
+  </header>
+
+  <main>
+    
+      
+    
+    
+<h1>Overall Expenditures & Income</h1>
+<form method="GET" action="/expenditures">
+    <label for="team">Filter by Design Team:</label>
+    <select name="team" id="team" onchange="this.form.submit()">
+        <option value="">All Teams</option>
+
+        
+            <option value="" 
+                selected>
+                
+            </option>
+        
+            <option value="" 
+                selected>
+                
+            </option>
+        
+            <option value="" 
+                selected>
+                
+            </option>
+        
+            <option value="" 
+                selected>
+                
+            </option>
+        
+            <option value="" 
+                selected>
+                
+            </option>
+        
+            <option value="" 
+                selected>
+                
+            </option>
+        
+            <option value="" 
+                selected>
+                
+            </option>
+        
+            <option value="" 
+                selected>
+                
+            </option>
+        
+            <option value="" 
+                selected>
+                
+            </option>
+        
+            <option value="" 
+                selected>
+                
+            </option>
+        
+            <option value="" 
+                selected>
+                
+            </option>
+        
+            <option value="" 
+                selected>
+                
+            </option>
+        
+            <option value="" 
+                selected>
+                
+            </option>
+        
+            <option value="" 
+                selected>
+                
+            </option>
+        
+            <option value="" 
+                selected>
+                
+            </option>
+        
+    </select>
+</form>
+
+<hr>
+
+<h2>Expenditures</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Request Date</th>
+            <th>Type</th>
+            <th>Team</th>
+            <th>Requester</th>
+            <th>Line Item</th>
+            <th>Unit Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>APF</th>
+            <th>Submitted P-Card Form</th>
+            <th>P-card Form</th>
+            <th>Completed</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td>2025-12-01</td>
+            <td>R</td>
+            <td>Unknown</td>
+            <td>Yash Saxena</td>
+            <td>
+                
+                    <a href="/download_reimbursement_files/1">battery</a>
+                
+            </td>
+            <td>123.45</td>
+            <td>1</td>
+            <td>123.45</td>
+
+            <td>
+                
+            </td>
+
+            <td>
+                
+                <a href="/expenditure/1/toggle_submitted_pcard">
+                    <input type="checkbox" >
+                </a>
+            </td>
+
+            <td>
+                
+            </td>
+
+            <td><a href="/expenditure/1/toggle_completed"><input type="checkbox" ></a></td>
+        </tr>
+        
+    </tbody>
+</table>
+
+<h3>Add Expenditure</h3>
+<form method="POST" enctype="multipart/form-data">
+    <input id="csrf_token" name="csrf_token" type="hidden" value="IjMyZmFlYWMyMThjZTRiMmJjNGJkYWYxMmJlZTgzOTVkMGY2YTFlNjYi.aS3vcQ.u-4FluW0_He5WMmSeUO0FdZVP3Y">
+    <div class="row">
+        <div class="col"><label for="design_team">Design Team</label> <select id="design_team" name="design_team" required></select></div>
+        <div class="col"><label for="requester_name">Requester Name</label> <input id="requester_name" name="requester_name" required type="text" value=""></div>
+        <div class="col"><label for="line_item_name">Line Item Name</label> <input id="line_item_name" name="line_item_name" required type="text" value=""></div>
+        <div class="col"><label for="link">Link</label> <input id="link" name="link" type="text" value=""></div>
+        <div class="col"><label for="unit_price">Unit Price</label> <input id="unit_price" name="unit_price" required type="text" value=""></div>
+        <div class="col"><label for="quantity">Quantity</label> <input id="quantity" name="quantity" required type="number" value=""></div>
+    </div>
+    <input id="submit" name="submit" type="submit" value="Submit">
+</form>
+
+<hr>
+
+<h2>Income</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Date Confirmed</th>
+            <th>Grant/Company</th>
+            <th>Amount</th>
+            <th>Received?</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+    </tbody>
+</table>
+
+<h3>Add Income</h3>
+<form method="POST">
+    <input id="csrf_token" name="csrf_token" type="hidden" value="IjMyZmFlYWMyMThjZTRiMmJjNGJkYWYxMmJlZTgzOTVkMGY2YTFlNjYi.aS3vcQ.u-4FluW0_He5WMmSeUO0FdZVP3Y">
+    <div class="row">
+        <div class="col"><label for="date_confirmed">Date of payment</label> <input id="date_confirmed" name="date_confirmed" required type="date" value=""></div>
+        <div class="col"><label for="source">Grant Name / Company</label> <input id="source" name="source" required type="text" value=""></div>
+        <div class="col"><label for="amount">Amount</label> <input id="amount" name="amount" required type="text" value=""></div>
+    </div>
+    <input id="submit" name="submit" type="submit" value="Submit">
+</form>
+
+<hr>
+
+<h2>Totals</h2>
+<table class="table table-bordered">
+    <tr>
+        <th>Total Expenditures</th>
+        <td>123.45</td>
+    </tr>
+    <tr>
+        <th>Total Confirmed Expenditures</th>
+        <td>0</td>
+    </tr>
+    <tr>
+        <th>Total Income</th>
+        <td>0</td>
+    </tr>
+    <tr>
+        <th>Total Confirmed Income</th>
+        <td>0</td>
+    </tr>
+    <tr>
+        <th>Unofficial Total</th>
+        <td style="color: red;">
+            -123.45
+        </td>
+    </tr>
+    <tr>
+        <th><strong>Official Total</strong></th>
+        <td style="color: black; font-weight: bold;">
+            0
+        </td>
+    </tr>
+    <tr>
+        <th>Worst Case Total</th>
+        <td style="color: red;">
+            -123.45
+        </td>
+    </tr>
+</table>
+
+
+  </main>
+
+  <footer>
+    <small>Prototype</small>
+  </footer>
+  
+</body>
+</html>

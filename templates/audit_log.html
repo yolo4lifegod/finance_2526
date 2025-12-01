@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Audit Log</h1>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Auditor</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for a in audits %}
+        <tr>
+            <td>{{ a.date }}</td>
+            <td>{{ a.name }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3>Add New Audit</h3>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.audit_date.label }} {{ form.audit_date() }}<br>
+    {{ form.auditor_name.label }} {{ form.auditor_name() }}<br>
+    {{ form.submit() }}
+</form>
+{% endblock %}

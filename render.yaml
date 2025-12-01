@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: asme-finance
+    env: python
+    plan: free
+    pythonVersion: 3.9
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn run:app
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite:///finance.db
+      - key: SECRET_KEY
+        generateValue: true
+      - key: UPLOAD_FOLDER
+        value: ./uploads

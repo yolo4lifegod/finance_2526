@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Reimbursement Request</h1>
+
+<form method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+
+    <!-- Name -->
+    <div>
+        {{ form.name.label }}<br>
+        {{ form.name(class="form-control") }}
+        {% for error in form.name.errors %}
+            <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <br>
+
+    <!-- Completed Before -->
+    <div>
+        {{ form.completed_before() }}
+        {{ form.completed_before.label }}
+    </div>
+
+    <br>
+
+    <!-- Conditional Address + Phone -->
+    {% if form.completed_before.data is not true %}
+        <div>
+            {{ form.address.label }}<br>
+            {{ form.address(class="form-control") }}
+            {% for error in form.address.errors %}
+                <span class="error">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div>
+            {{ form.phone.label }}<br>
+            {{ form.phone(class="form-control") }}
+            {% for error in form.phone.errors %}
+                <span class="error">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <br>
+    {% endif %}
+
+    <!-- Design Team Dropdown -->
+    <div>
+        {{ form.design_team.label }}<br>
+        {{ form.design_team(class="form-control") }}
+        {% for error in form.design_team.errors %}
+            <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <br>
+
+    <!-- Description -->
+    {{ form.line_item.label }}<br>
+    {{ form.line_item(class="form-control") }}
+    <div>
+        {{ form.description.label }}<br>
+        {{ form.description(class="form-control") }}
+        {% for error in form.description.errors %}
+            <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+    <br>
+
+    <!-- Amount -->
+    <div>
+        {{ form.amount.label }}<br>
+        {{ form.amount(class="form-control") }}
+        {% for error in form.amount.errors %}
+            <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <br>
+
+    <!-- File Uploads -->
+    <div>
+        {{ form.proof_of_purchase.label }}<br>
+        {{ form.proof_of_purchase() }}
+        {% for error in form.proof_of_purchase.errors %}
+            <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div>
+        {{ form.proof_of_delivery.label }}<br>
+        {{ form.proof_of_delivery() }}
+        {% for error in form.proof_of_delivery.errors %}
+            <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <br>
+
+    <br>
+
+    <!-- Optional APF Attachment -->
+    <div>
+        {{ form.apf_file.label }}<br>
+        {{ form.apf_file() }}
+        {% for error in form.apf_file.errors %}
+            <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <br>
+
+    <!-- Submit -->
+    <button class="btn btn-primary">{{ form.submit.label }}</button>
+
+</form>
+
+{% endblock %}

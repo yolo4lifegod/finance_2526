@@ -1,0 +1,17 @@
+DESIGN_TEAMS = [
+    (1, "Aero"),
+    (2, "Biomechanics"),
+    (3, "Consulting"),
+    (4, "Energy"),
+    (5, "Racing"),
+    (6, "Robotics"),
+    (7, "Rube Goldberg"),
+    (8, "Small Projects"),
+    (9, "EPICS"),
+    (10, "Board of Directors"),
+    (11, "DEIB"),
+    (12, "External"),
+    (13, "Marketing"),
+    (14, "Internal"),
+    (15, "Workspaces"),
+]

@@ -1,0 +1,135 @@
+﻿<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Finance App</title>
+  <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
+</head>
+<body>
+  <header>
+    <h1>Finance Management</h1>
+    <nav>
+      <a href="/">Home</a> |
+      <a href="/audit-log">Audit Log</a> |
+      <a href="/reimbursement">Reimbursement</a> |
+      <a href="/purchase-request">Purchase Request</a> |
+      <a href="/grants">Grants</a> |
+      <a href="/expenditures">Overall Expenditures</a>
+    </nav>
+  </header>
+
+  <main>
+    
+      
+    
+    
+<h1>Reimbursement Request</h1>
+
+<form method="POST" enctype="multipart/form-data">
+    <input id="csrf_token" name="csrf_token" type="hidden" value="Ijg0MzY5NjEzYzM5YzYyY2E3NzBlODQ3MzYyOWE2YTM1MDcwZDM5MDgi.aS3aQQ.ryvtPqrxNNwmEH8G7VzAaN8C0fs">
+
+    <!-- Name -->
+    <div>
+        <label for="name">Name</label><br>
+        <input class="form-control" id="name" name="name" required type="text" value="">
+        
+    </div>
+
+    <br>
+
+    <!-- Completed Before -->
+    <div>
+        <input id="completed_before" name="completed_before" type="checkbox" value="y">
+        <label for="completed_before">Completed before</label>
+    </div>
+
+    <br>
+
+    <!-- Conditional Address + Phone -->
+    
+        <div>
+            <label for="address">Address</label><br>
+            <input class="form-control" id="address" name="address" type="text" value="">
+            
+        </div>
+
+        <div>
+            <label for="phone">Phone</label><br>
+            <input class="form-control" id="phone" name="phone" type="text" value="">
+            
+        </div>
+
+        <br>
+    
+
+    <!-- Design Team Dropdown -->
+    <div>
+        <label for="design_team">Design Team</label><br>
+        <select class="form-control" id="design_team" name="design_team" required><option value="1">Aero</option><option value="2">Biomechanics</option><option value="3">Consulting</option><option value="4">Energy</option><option value="5">Racing</option><option value="6">Robotics</option><option value="7">Rube Goldberg</option><option value="8">Small Projects</option><option value="9">EPICS</option><option value="10">Board of Directors</option><option value="11">DEIB</option><option value="12">External</option><option value="13">Marketing</option><option value="14">Internal</option><option value="15">Workspaces</option></select>
+        
+    </div>
+
+    <br>
+
+    <!-- Description -->
+    <label for="line_item">Line Item Name</label><br>
+    <input class="form-control" id="line_item" name="line_item" required type="text" value="">
+    <div>
+        <label for="description">Description</label><br>
+        <textarea class="form-control" id="description" name="description" required>
+</textarea>
+        
+    </div>
+    <br>
+
+    <!-- Amount -->
+    <div>
+        <label for="amount">Amount</label><br>
+        <input class="form-control" id="amount" name="amount" required type="text" value="">
+        
+    </div>
+
+    <br>
+
+    <!-- File Uploads -->
+    <div>
+        <label for="proof_of_purchase">Proof of Purchase (pdf/png/jpg)</label><br>
+        <input id="proof_of_purchase" name="proof_of_purchase" required type="file">
+        
+    </div>
+
+    <div>
+        <label for="proof_of_delivery">Proof of Delivery (pdf/png/jpg)</label><br>
+        <input id="proof_of_delivery" name="proof_of_delivery" required type="file">
+        
+    </div>
+
+    <br>
+
+    <br>
+
+    <!-- Optional APF Attachment -->
+    <div>
+        <label for="apf_file">Associated APF (optional)</label><br>
+        <input id="apf_file" name="apf_file" type="file">
+        
+    </div>
+
+    <br>
+
+    <!-- Submit -->
+    <button class="btn btn-primary"><label for="submit">Submit</label></button>
+
+</form>
+
+
+  </main>
+
+  <footer>
+    <small>Prototype</small>
+  </footer>
+  
+</body>
+</html>

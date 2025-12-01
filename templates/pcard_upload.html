@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Upload P-Card Form</h2>
+<p>Expenditure: {{ expenditure.line_item_name }} (ID: {{ expenditure.id }})</p>
+<form method="POST" enctype="multipart/form-data">
+    <label for="pcard_file">P-Card form (pdf/png/jpg):</label>
+    <input type="file" name="pcard_file" id="pcard_file" required>
+    <div>
+        <button type="submit">Upload</button>
+        <a href="{{ url_for('main.expenditures') }}">Cancel</a>
+    </div>
+</form>
+{% endblock %}
